@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue源码</title>
+  </head>
+  <body>
+    <div id="app" style="color: red; font-size: 40px">
+      vue源码手动实现,热更新{{ name }}
+    </div>
+    <script src="/dist/umd/vue.js"></script>
+    <script>
+      let vm = new Vue({
+        el: '#app',
+        data() {
+          return {
+            name: 'lqm',
+            age: 26,
+            aa: [1, 2, 3, 4, 5],
+          }
+        },
+        methods: {},
+      })
+    </script>
+  </body>
+</html>
