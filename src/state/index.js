@@ -17,9 +17,9 @@ function initData(vm) {
   observe(data)
   // 把data里面的key->value代理到this上面去，通过this[key]可以直接访问到
   vm.proxy(data)
-  setTimeout(() => {
-    data.name = 'llll'
-    data.aa.push(99)
-  }, 3000)
+  // setTimeout(() => {
+  //   data.name = 'llll'
+  //   data.aa.push(99)
+  // }, 3000)
 }
 export { initState }
