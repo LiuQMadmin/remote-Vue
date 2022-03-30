@@ -14,5 +14,4 @@ function lifecycleMixin(Vue) {
     patch(vm, vnode)
   }
 }
-
 export { mountComponent, lifecycleMixin }

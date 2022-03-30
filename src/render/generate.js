@@ -43,16 +43,45 @@ function genProps(attrs) {
       // 取出来的是字符串，赋值进去的是对象
       attr.value = styleAttrs
     }
-    attrStr += `${attr.name}:${JSON.stringify(attr.value)},`
+    // 把attr里面的v-for排除掉
+    if (attr.name !== 'v-for') {
+      attrStr += `${attr.name}:${JSON.stringify(attr.value)},`
+    }
   })
   // 去掉字符串最后一位的‘逗号’，使用slice(0, -1)
   return `{${attrStr.slice(0, -1)}}`
 }
+/**
+ * 处理v-for的方法
+ */
+function genFor(childrenNode) {
+  let children = getChildren(childrenNode)
+  return `_l(
+      (${childrenNode.for}),
+      function(${childrenNode.alias},${childrenNode.iterator1}){
+        return _c(
+          '${childrenNode.tag}',
+          ${
+            childrenNode.attrs && childrenNode.attrs.length > 0
+              ? genProps(childrenNode.attrs)
+              : undefined
+          },
+          ${children ? children : undefined},
+        )
+      }
+    )
+  `
+}
 // 判断子节点是元素节点还是文本节点
 function generateChildren(childrenNode) {
   if (childrenNode.type === 1) {
-    // 元素节点
-    return generate(childrenNode)
+    if (childrenNode.for) {
+      // v-for处理成ast树
+      return genFor(childrenNode)
+    } else {
+      // 元素节点
+      return generate(childrenNode)
+    }
   } else if (childrenNode.type === 3) {
     // 文本节点
     let text = childrenNode.text
@@ -89,6 +118,7 @@ function generateChildren(childrenNode) {
     return `_v(${textArr.join('+')})`
   }
 }
+
 function getChildren(ast) {
   const children = ast.children
   if (children) {

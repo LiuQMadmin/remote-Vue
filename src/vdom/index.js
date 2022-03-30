@@ -18,6 +18,8 @@ function vnodeMixin(Vue) {
   Vue.prototype._v = function (text) {
     return createTextVnode(text)
   }
+  // 处理v-for的函数
+  Vue.prototype._l = renderList
   // Vue上面挂载把render处理成vnode的方法_render
   Vue.prototype._render = function () {
     const vm = this
@@ -27,5 +29,18 @@ function vnodeMixin(Vue) {
     const vnode = render.call(vm)
     return vnode
   }
+}
+// 处理v-for的函数
+function renderList(val, renderFun) {
+  let ret = []
+  if (Array.isArray(val) || typeof val === 'string') {
+    // val是数组或者字符串时
+    val.map((item, index) => {
+      //循环数组或者字符串
+      ret[index] = renderFun(item, index)
+    })
+  }
+  //返回一个空数组对象
+  return ret
 }
 export { vnodeMixin }

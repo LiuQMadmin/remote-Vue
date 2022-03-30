@@ -30,7 +30,13 @@ function createElement(vnode) {
     // 递归处理子节点
     children &&
       children.map((child) => {
-        vnode.el.appendChild(createElement(child))
+        if (Array.isArray(child)) {
+          child.map((it) => {
+            vnode.el.appendChild(createElement(it))
+          })
+        } else {
+          vnode.el.appendChild(createElement(child))
+        }
       })
   } else {
     // 文本节点

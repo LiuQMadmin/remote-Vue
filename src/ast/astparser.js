@@ -38,10 +38,20 @@ var startTagOpen = new RegExp('^<' + qnameCapture) // 匹配开头必需是< 后
 var startTagClose = /^\s*(\/?)>/ //     匹配 > 标签 或者/> 闭合标签
 // </div>
 var endTag = new RegExp('^<\\/' + qnameCapture + '[^>]*>') //匹配开头必需是</ 后面可以忽略是任何字符串  ^<\\/((?:[a-zA-Z_][\\w\\-\\.]*\\:)?[a-zA-Z_][\\w\\-\\.]*)[^>]*>
+var forAliasRE = /([^]*?)\s+(?:in|of)\s+([^]*)/ //匹配 含有   字符串 in  字符串   或者  字符串 of  字符串
+// /([^]*?)\s+(?:in|of)\s+([^]*)/.exec('(item,index) in data')
+// 0: "(item,index) in data"
+// 1: "(item,index)"
+// 2: "data"
+// groups: undefined
+// index: 0
+// input: "(item,index) in data"
+// length: 3
+var stripParensRE = /^\(|\)$/g //匹配括号 ()
 // 把html转成ast树
 const parseHTMLtoAST = function (html) {
   let text
-  let root
+  let root = null
   let currentParent
   let stack = []
   while (html) {
@@ -51,7 +61,7 @@ const parseHTMLtoAST = function (html) {
       // 完成一个元素的遍历 例如：<div id="app"> 一个元素的前半部分
       const startTagMatch = parseStartTag()
       if (startTagMatch) {
-        start(startTagMatch.tagName, startTagMatch.attrs)
+        start(startTagMatch)
         // 结束本次循环，就因为continue了，才会把所有的<div>标签遍历完
         continue
       }
@@ -104,6 +114,14 @@ const parseHTMLtoAST = function (html) {
           // 'app' --> attr[3]  "app"--> attr[4]  app --> attr[5]
           value: attr[3] || attr[4] || attr[5],
         })
+        if (attr[1] === 'v-for') {
+          let forAttr = forAliasRE.exec(attr[3] || attr[4] || attr[5])
+          var alias = forAttr[1].trim().replace(stripParensRE, '') //去除括号 比如(value, key, index) in data 变成 value, key, index
+          let forItem = alias.split(',')
+          match['for'] = forAttr[2]
+          match.alias = forItem[0]
+          match.iterator1 = forItem[1].trim()
+        }
         advance(attr[0].length)
       }
       // 没有attr属性，后面就是结束标签，把这个元素的ast返回
@@ -116,9 +134,9 @@ const parseHTMLtoAST = function (html) {
   function advance(n) {
     html = html.substring(n)
   }
-  function start(tagName, attrs) {
+  function start(tagName, attrs, ...forItem) {
     // 创建ast树的基本结构
-    const element = createASTElement(tagName, attrs)
+    const element = createASTElement(tagName, attrs, forItem)
     // 判断是不是头元素
     if (!root) {
       root = element
@@ -138,7 +156,7 @@ const parseHTMLtoAST = function (html) {
   function end() {
     // 执行这里的时候就是当前闭合标签，例如：</div>
     const element = stack.pop() // 取出来当前元素
-    currentParent = stack.at(-1) // 当前元素的父元素
+    currentParent = stack.at(-1) // 取出去最后一个元素
     if (currentParent) {
       // 设置当前元素的父元素
       element.parent = currentParent
@@ -157,13 +175,28 @@ const parseHTMLtoAST = function (html) {
       })
     }
   }
-  function createASTElement(tagName, attrs) {
-    return {
-      tag: tagName,
-      type: 1, //元素节点
-      children: [],
-      attrs,
-      parent,
+  function createASTElement(startTagMatch) {
+    // 处理v-for的ast结构
+    if (startTagMatch.for) {
+      const { tagName, attrs, alias, iterator1 } = startTagMatch
+      return {
+        tag: tagName,
+        type: 1, //元素节点
+        children: [],
+        attrs,
+        parent,
+        alias,
+        for: startTagMatch.for,
+        iterator1,
+      }
+    } else {
+      return {
+        tag: startTagMatch.tagName,
+        type: 1, //元素节点
+        children: [],
+        attrs: startTagMatch.attrs,
+        parent,
+      }
     }
   }
   return root
