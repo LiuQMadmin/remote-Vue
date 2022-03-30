@@ -21,7 +21,7 @@ export default {
           open: true,
           openPage: '/public/index.html', // 打开那个文件
           port: 3000,
-          contentBase: './', // 入口html的文件位置
+          contentBase: '', // 入口html的文件位置
         })
       : null,
   ],
