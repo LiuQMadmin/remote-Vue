@@ -22,9 +22,8 @@ function $mount(el) {
     }
     // 把template转成ast树
     const ast = parseHTMLtoAST(template)
-    console.log(ast)
-    // const render = compilerToRenderFunction(ast)
-    // options.render = render
+    const render = compilerToRenderFunction(ast)
+    options.render = render
   }
   /**
    * 思想：在这里创建Watcher实例，并且吧render函数变成虚拟节点的函数传递进去
@@ -32,7 +31,7 @@ function $mount(el) {
    * 存储到dep.target变量中去，mountComponent函数执行时，可以进行收集依赖，在函数执行
    * 完毕之后再把dep.target变成null，从而实现收集变量依赖，实现双向绑定
    */
-  // new Watcher(vm, mountComponent)
+  new Watcher(vm, mountComponent)
 }
 
 export { $mount }

@@ -8,15 +8,15 @@
   </head>
   <body>
     <div id="app" style="color: red; font-size: 40px">
-      vue热更新{{ name }}
+      <div>vue热更新{{ name }}</div>
       <span>span标签</span>
-      <p v-for="(item, index) in aa">
-        {{index}}->{{item}}
-        <div v-for="(item, index) in aa">{{ item }}</div>
-      </p>
+      <span v-for="(item, index) in aa">
+        <div>{{ item }} - {{ index }}</div>
+      </span>
     </div>
     <script src="/dist/umd/vue.js"></script>
     <script>
+      // <div v-for="(item, index) in aa">{{ item }} - {{ index }}</div>
       // <p v-for="(item, index) in aa">{{index}}->{{item}}</p>
       let vm = new Vue({
         el: '#app',

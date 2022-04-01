@@ -51,7 +51,7 @@ var stripParensRE = /^\(|\)$/g //匹配括号 ()
 // 把html转成ast树
 const parseHTMLtoAST = function (html) {
   let text
-  let root = null
+  let root
   let currentParent
   let stack = []
   while (html) {
@@ -90,6 +90,7 @@ const parseHTMLtoAST = function (html) {
     let attr // 元素的属性
     // 通过正则匹配出来元素的开始标签<div
     const start = html.match(startTagOpen)
+    // debugger
     // 0: "<div"
     // 1: "div"
     // groups: undefined
@@ -134,9 +135,9 @@ const parseHTMLtoAST = function (html) {
   function advance(n) {
     html = html.substring(n)
   }
-  function start(tagName, attrs, ...forItem) {
+  function start(startTagMatch) {
     // 创建ast树的基本结构
-    const element = createASTElement(tagName, attrs, forItem)
+    const element = createASTElement(startTagMatch)
     // 判断是不是头元素
     if (!root) {
       root = element

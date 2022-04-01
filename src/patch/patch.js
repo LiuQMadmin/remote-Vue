@@ -30,6 +30,7 @@ function createElement(vnode) {
     // 递归处理子节点
     children &&
       children.map((child) => {
+        // v-for添加的vnode元素是一个数组，要把这个数组铺平展开
         if (Array.isArray(child)) {
           child.map((it) => {
             vnode.el.appendChild(createElement(it))

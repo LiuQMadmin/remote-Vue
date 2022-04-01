@@ -35,6 +35,8 @@ methods.map((method) => {
       // 判断inserted里面数据继续添加监控
       ob.observeMethods(inserted)
     }
+    // 触发在get方法里面收集的依赖
+    this.deps.notify()
     // 目前是没用
     return result
   }

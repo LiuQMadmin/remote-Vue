@@ -1,7 +1,8 @@
 import { Dep } from '../dep/index'
-import { Watcher } from '../watcher/index'
+// import { Watcher } from '../watcher/index'
 import { def } from '../utils/index'
 import { arrayMethods } from './array'
+// import { mountComponent } from '../lifecycle/lifecycle'
 /**
  * 数据双向绑定
  * @param {*} data
@@ -55,14 +56,17 @@ function defineReactive(data, key, value) {
   Object.defineProperty(data, key, {
     configurable: true, // 是否可删除
     enumerable: true, // 是否可以枚举
-    get() {
+    get: () => {
       // 首次获取变量把订阅事件存储到subs数组中
       Dep.target && Deps.addSubs(Dep.target)
-      // console.log(Deps.subs)
+      // 如果是数组，在获取的时候收集依赖
+      if (Array.isArray(value)) {
+        value.__proto__.deps = Deps
+      }
       return value
     },
     // 改变值时触发
-    set(newValue) {
+    set: (newValue) => {
       // 如果新旧值相等，直接结束
       if (Object.is(value, newValue)) return
       // 检查变量是不是对象，是对象就继续数据劫持
