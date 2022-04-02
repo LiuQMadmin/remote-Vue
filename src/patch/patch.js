@@ -11,6 +11,8 @@ function updateProps(vnode) {
       })
     } else if (key === 'class') {
       el.className = value
+    } else if (key === 'on') {
+      el.onclick = value.click
     } else {
       el.setAttribute(key, value)
     }

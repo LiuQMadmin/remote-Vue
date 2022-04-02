@@ -8,8 +8,8 @@
   </head>
   <body>
     <div id="app" style="color: red; font-size: 40px">
-      <div>vue热更新{{ name }}</div>
-      <span>span标签</span>
+      <div>vue热更新{{ name }}{{ age }}</div>
+      <span @click="handleClick(aa)">span标签</span>
       <span v-for="(item, index) in aa">
         <div>{{ item }} - {{ index }}</div>
       </span>
@@ -27,7 +27,13 @@
             aa: [1, 2, 3, 4, 5],
           }
         },
-        methods: {},
+        methods: {
+          handleClick(value) {
+            this.aa.push(45)
+            this.age = 46
+            console.log(value, 'handleClick')
+          },
+        },
       })
     </script>
   </body>

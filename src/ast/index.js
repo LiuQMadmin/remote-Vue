@@ -22,6 +22,7 @@ function $mount(el) {
     }
     // 把template转成ast树
     const ast = parseHTMLtoAST(template)
+    console.log(ast, 'astast')
     const render = compilerToRenderFunction(ast)
     options.render = render
   }

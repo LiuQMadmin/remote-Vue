@@ -1,6 +1,7 @@
 import { observe } from '../observe/index'
 function initState(vm) {
   const opts = vm.$options
+  // 初始化data
   if (opts.data) {
     initData(vm)
   }

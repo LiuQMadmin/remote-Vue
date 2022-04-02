@@ -45,7 +45,12 @@ function genProps(attrs) {
     }
     // 把attr里面的v-for排除掉
     if (attr.name !== 'v-for') {
-      attrStr += `${attr.name}:${JSON.stringify(attr.value)},`
+      if (attr.name === '@click') {
+        const fnstr = `{click:function($event){return ${attr.value}}}`
+        attrStr += `on:${fnstr},`
+      } else {
+        attrStr += `${attr.name}:${JSON.stringify(attr.value)},`
+      }
     }
   })
   // 去掉字符串最后一位的‘逗号’，使用slice(0, -1)

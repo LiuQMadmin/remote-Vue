@@ -115,10 +115,11 @@ const parseHTMLtoAST = function (html) {
           // 'app' --> attr[3]  "app"--> attr[4]  app --> attr[5]
           value: attr[3] || attr[4] || attr[5],
         })
+        // 过滤v-for
         if (attr[1] === 'v-for') {
           let forAttr = forAliasRE.exec(attr[3] || attr[4] || attr[5])
           var alias = forAttr[1].trim().replace(stripParensRE, '') //去除括号 比如(value, key, index) in data 变成 value, key, index
-          let forItem = alias.split(',')
+          let forItem = alias.split(',') // 根据","分割成多个数组元素
           match['for'] = forAttr[2]
           match.alias = forItem[0]
           match.iterator1 = forItem[1].trim()
