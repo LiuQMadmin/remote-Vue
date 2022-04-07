@@ -132,7 +132,14 @@ function getChildren(ast) {
 }
 function generate(ast) {
   let children = getChildren(ast)
-  let code = `_c(
+  let code =
+    ast.if != undefined
+      ? `(${ast.if}) ? _c(
+    '${ast.tag}',
+    ${ast.attrs && ast.attrs.length > 0 ? genProps(ast.attrs) : undefined},
+    ${children ? children : undefined}
+  ) : _e()`
+      : `_c(
     '${ast.tag}',
     ${ast.attrs && ast.attrs.length > 0 ? genProps(ast.attrs) : undefined},
     ${children ? children : undefined}

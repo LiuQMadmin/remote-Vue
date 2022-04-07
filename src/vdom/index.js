@@ -32,9 +32,8 @@ function vnodeMixin(Vue) {
   }
   // v-if处理函数
   Vue.prototype._e = function () {
-    var node = new VNode()
-    node.text = ''
-    return node
+    // 生成一个空的文本节点
+    return createTextVnode('')
   }
   // Vue上面挂载把render处理成vnode的方法_render
   Vue.prototype._render = function () {
