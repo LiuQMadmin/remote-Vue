@@ -123,6 +123,8 @@ const parseHTMLtoAST = function (html) {
           match['for'] = forAttr[2]
           match.alias = forItem[0]
           match.iterator1 = forItem[1].trim()
+        } else if (attr[1] === 'v-if') {
+          match['if'] = attr[3] || attr[4] || attr[5]
         }
         advance(attr[0].length)
       }
@@ -146,7 +148,6 @@ const parseHTMLtoAST = function (html) {
     // 标记谁是谁的子元素，在执行end方法的时候能后取到currentParent
     // 是给匹配到文本节点的时候标记父元素用的（chars()里面用到的）
     currentParent = element
-    // console.log(currentParent, 'currentParent')
     // 把当前元素放入到栈里面
     stack.push(element)
   }
@@ -183,13 +184,22 @@ const parseHTMLtoAST = function (html) {
       const { tagName, attrs, alias, iterator1 } = startTagMatch
       return {
         tag: tagName,
-        type: 1, //元素节点
+        type: 1, // 元素节点
         children: [],
         attrs,
         parent,
         alias,
         for: startTagMatch.for,
         iterator1,
+      }
+    } else if (startTagMatch.if) {
+      return {
+        tag: startTagMatch.tagName,
+        type: 1, //元素节点
+        children: [],
+        attrs: startTagMatch.attrs,
+        if: startTagMatch.if,
+        parent,
       }
     } else {
       return {

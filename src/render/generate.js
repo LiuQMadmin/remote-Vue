@@ -44,7 +44,7 @@ function genProps(attrs) {
       attr.value = styleAttrs
     }
     // 把attr里面的v-for排除掉
-    if (attr.name !== 'v-for') {
+    if (attr.name !== 'v-for' && attr.name !== 'v-if') {
       if (attr.name === '@click') {
         const fnstr = `{click:function($event){return ${attr.value}}}`
         attrStr += `on:${fnstr},`

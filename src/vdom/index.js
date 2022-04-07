@@ -30,6 +30,12 @@ function vnodeMixin(Vue) {
     }
     return ret
   }
+  // v-if处理函数
+  Vue.prototype._e = function () {
+    var node = new VNode()
+    node.text = ''
+    return node
+  }
   // Vue上面挂载把render处理成vnode的方法_render
   Vue.prototype._render = function () {
     const vm = this
