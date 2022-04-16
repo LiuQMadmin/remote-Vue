@@ -48,6 +48,10 @@ function genProps(attrs) {
       if (attr.name === '@click') {
         const fnstr = `{click:function($event){return ${attr.value}}}`
         attrStr += `on:${fnstr},`
+      } else if (/^:/.test(attr.name)) {
+        // 处理：class动态绑定
+        const value = /:(.*)/.exec(attr.name)
+        attrStr += `${value[1]}:_s(${attr.value}),`
       } else {
         attrStr += `${attr.name}:${JSON.stringify(attr.value)},`
       }

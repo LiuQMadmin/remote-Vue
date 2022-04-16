@@ -24,10 +24,11 @@ function $mount(el) {
     const ast = parseHTMLtoAST(template)
     console.log(ast, 'astast')
     const render = compilerToRenderFunction(ast)
+    console.log(render, 'render')
     options.render = render
   }
   /**
-   * 思想：在这里创建Watcher实例，并且吧render函数变成虚拟节点的函数传递进去
+   * 思想：在这里创建Watcher实例，并且把render函数变成虚拟节点的函数传递进去
    * 在Watcher内部去调用mountComponent函数，把render变成虚拟节点，并且把Wacther实例
    * 存储到dep.target变量中去，mountComponent函数执行时，可以进行收集依赖，在函数执行
    * 完毕之后再把dep.target变成null，从而实现收集变量依赖，实现双向绑定

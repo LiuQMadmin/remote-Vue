@@ -8,38 +8,39 @@
   </head>
   <body>
     <div id="app" style="color: red; font-size: 40px">
-      <div :class="classStyle">vue热更新{{ name }}{{ age }}</div>
+      <div class="classStyle">vue热更新{{ name }}{{ age }}</div>
       <div v-if="IfShow">v-if={{ IfShow }}测试隐藏</div>
       <span @click="handleClick(aa)">span标签</span>
       <span v-for="(item, index) in aa">
         <div>{{ item.key }} - {{ index }}</div>
       </span>
+      <div :class="classStyle">:class="classStyle"</div>
     </div>
-    <script src="/dist/umd/vue.js"></script>
+    <script type="module">
+      import '/dist/umd/vue.js'
+    </script>
     <script>
-      // <div v-for="(item, index) in aa">{{ item }} - {{ index }}</div>
-      // <p v-for="(item, index) in aa">{{index}}->{{item}}</p>
-      let vm = new Vue({
-        el: '#app',
-        data() {
-          return {
-            name: 'lqm',
-            age: 26,
-            IfShow: true,
-            aa: [
-              { key: 1, value: 1 },
-              { key: 2, value: 2 },
-            ],
-          }
-        },
-        methods: {
-          handleClick(value) {
-            this.aa.push({ key: 45, value: 45 })
-            this.age = 46
-            console.log(value, 'handleClick')
-          },
-        },
-      })
+      // let vm = new Vue({
+      //   el: '#app',
+      //   data() {
+      //     return {
+      //       name: 'lqm',
+      //       age: 26,
+      //       IfShow: true,
+      //       aa: [
+      //         { key: 1, value: 1 },
+      //         { key: 2, value: 2 },
+      //       ],
+      //     }
+      //   },
+      //   methods: {
+      //     handleClick(value) {
+      //       this.aa.push({ key: 45, value: 45 })
+      //       this.age = 46
+      //       console.log(value, 'handleClick')
+      //     },
+      //   },
+      // })
     </script>
   </body>
 </html>

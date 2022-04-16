@@ -115,6 +115,7 @@ const parseHTMLtoAST = function (html) {
           // 'app' --> attr[3]  "app"--> attr[4]  app --> attr[5]
           value: attr[3] || attr[4] || attr[5],
         })
+        // }
         // 过滤v-for
         if (attr[1] === 'v-for') {
           let forAttr = forAliasRE.exec(attr[3] || attr[4] || attr[5])

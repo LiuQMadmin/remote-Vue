@@ -1,9 +1,9 @@
 import babel from 'rollup-plugin-babel'
 import serve from 'rollup-plugin-serve'
 import livereload from 'rollup-plugin-livereload'
-
+// import RollupPluginVue from 'rollup-plugin-vue'
 export default {
-  input: './src/index.js', // 以那个文件作为打包的入口
+  input: './main.js', // 以那个文件作为打包的入口
   output: {
     // 出口文件路径
     file: 'dist/umd/vue.js',
@@ -15,6 +15,7 @@ export default {
     babel({
       exclude: 'node_modules/**', // 忽略这个文件下面的所有文件
     }),
+    // RollupPluginVue(),
     livereload(), // 热更新 默认监听根文件夹
     process.env.ENV === 'development' // 开发环境配置这个服务
       ? serve({

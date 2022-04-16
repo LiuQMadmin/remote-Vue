@@ -15,7 +15,7 @@ class Watcher {
   get() {
     // 给target赋值，保存当前的Watch对象,并且把全局的Watcher存入进去
     Dep.target = this
-    this.exprFun(this.vm)
+    this.exprFun(this.vm) // 把render函数变成虚拟节点
     Dep.target = null
   }
   // 更新值

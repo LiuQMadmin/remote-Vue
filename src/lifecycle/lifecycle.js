@@ -1,4 +1,4 @@
-import { patch } from '../patch/patch'
+import { patch } from '../patch/patch.js'
 /**
  * 将render函数转成虚拟dom
  */
