@@ -1,3 +1,4 @@
+import Vue from '../index'
 /**
  * 处理元素上面的属性
  */
@@ -27,6 +28,7 @@ function createElement(vnode) {
   if (typeof tag === 'string') {
     // 在vnode添加一个key值，充当一个全局变量，没啥别的意思
     vnode.el = document.createElement(tag)
+
     // 处理元素上面的属性
     updateProps(vnode)
     // 递归处理子节点
@@ -51,6 +53,7 @@ function createElement(vnode) {
  * 把vnode转成dom挂载到页面中
  */
 function patch(vm, vnode) {
+  vm.$options.vnode = vnode
   const oldNode = vm.$el
   // 返回的el已经是真实的dom了
   let el = createElement(vnode)

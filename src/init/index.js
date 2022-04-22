@@ -12,8 +12,11 @@ function _init(options) {
   initState(vm)
   // 初始化methods
   initMethods(vm)
+
   if (vm.$options.el) {
     vm.$mount(vm.$options.el)
+  } else {
+    vm.$mount(options)
   }
 }
 // 把_init函数挂载到Vue原型上面

@@ -1,9 +1,15 @@
+import Vue from '../index'
 /**
  * 创建元素节点的函数
  * ...children将多余的参数放到children中
  */
 function createElement(tag, attrs = {}, ...children) {
-  return vnode(tag, attrs, children)
+  if (tag == 'child' || tag == 'childtwo') {
+    const that = new Vue.options.components[tag]()
+    return that.$options.vnode
+  }
+  // 从这里做判断
+  return vnode(tag, attrs, children.includes(undefined) ? [] : children)
 }
 /**
  * 创建文本节点函数

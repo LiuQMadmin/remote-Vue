@@ -1,5 +1,21 @@
 import Vue from './src/index'
 
+Vue.component('child', {
+  data() {
+    return {
+      count: 1,
+    }
+  },
+  template: '<div>child component{{ count }}</div>',
+})
+Vue.component('childtwo', {
+  data() {
+    return {
+      count: 3,
+    }
+  },
+  template: '<div>child component{{ count }}</div>',
+})
 let vm = new Vue({
   el: '#app',
   data() {
@@ -23,3 +39,5 @@ let vm = new Vue({
     },
   },
 })
+
+export default vm

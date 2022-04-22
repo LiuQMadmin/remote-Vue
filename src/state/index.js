@@ -8,7 +8,7 @@ function initState(vm) {
 }
 // 初始化data里面的数据
 function initData(vm) {
-  let data = vm.$options.data
+  let data = vm.$options.data || vm
   // data.call(vm)是可以在data函数里面使用this
   data = typeof data === 'function' ? data.call(vm) : data
   // 让用户方便使用使用，把data挂载到vm的$data上面

@@ -5,20 +5,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vue源码</title>
+    <script type="module">
+      import '/dist/umd/vue.js'
+    </script>
   </head>
   <body>
     <div id="app" style="color: red; font-size: 40px">
       <div class="classStyle">vue热更新{{ name }}{{ age }}</div>
+      <child></child>
       <div v-if="IfShow">v-if={{ IfShow }}测试隐藏</div>
       <span @click="handleClick(aa)">span标签</span>
       <span v-for="(item, index) in aa">
         <div>{{ item.key }} - {{ index }}</div>
       </span>
       <div :class="classStyle">:class="classStyle"</div>
+      <childtwo></childtwo>
     </div>
-    <script type="module">
-      import '/dist/umd/vue.js'
-    </script>
     <script>
       // let vm = new Vue({
       //   el: '#app',
@@ -27,6 +29,8 @@
       //       name: 'lqm',
       //       age: 26,
       //       IfShow: true,
+
+      //       classStyle: 'stylevalue',
       //       aa: [
       //         { key: 1, value: 1 },
       //         { key: 2, value: 2 },

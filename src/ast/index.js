@@ -8,9 +8,11 @@ import { Watcher } from '../watcher/index'
 function $mount(el) {
   const vm = this
   const options = vm.$options
-  el = document.querySelector(el)
-  // 把el挂载到vm的$el上面
-  vm.$el = el
+  if (!el.template) {
+    el = document.querySelector(el)
+    // 把el挂载到vm的$el上面
+    vm.$el = el
+  }
   /**
    * 先判断render函数存不存在
    */
@@ -22,9 +24,7 @@ function $mount(el) {
     }
     // 把template转成ast树
     const ast = parseHTMLtoAST(template)
-    console.log(ast, 'astast')
     const render = compilerToRenderFunction(ast)
-    console.log(render, 'render')
     options.render = render
   }
   /**

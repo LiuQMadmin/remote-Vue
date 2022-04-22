@@ -6,7 +6,7 @@ import { createElement, createTextVnode } from './vnode'
 function vnodeMixin(Vue) {
   // Vue上面挂载商城dom元素的_c()方法
   Vue.prototype._c = function () {
-    return createElement(...arguments)
+    return createElement.call(this, ...arguments)
   }
   // Vue上面挂载{{ name }} 的方法_s()
   Vue.prototype._s = function (value) {
@@ -36,9 +36,9 @@ function vnodeMixin(Vue) {
     return createTextVnode('')
   }
   // Vue上面挂载把render处理成vnode的方法_render
-  Vue.prototype._render = function () {
+  Vue.prototype._render = function (renderFun) {
     const vm = this
-    const render = vm.$options.render
+    const render = renderFun ? renderFun : vm.$options.render
     // 改变函数调用的this指向，这样爱会调用到Vue原型上面的方法_c(),_s(),_v()
     // 如果不改变this指向，render函数里面的this会指向window
     const vnode = render.call(vm)
