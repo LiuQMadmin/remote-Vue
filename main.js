@@ -33,7 +33,7 @@ let vm = new Vue({
   methods: {
     handleClick(value) {
       this.aa.push({ key: 45, value: 45 })
-      this.age = 46
+      // this.age = this.age + 1
       console.log(value, 'handleClick')
       console.log(this)
     },

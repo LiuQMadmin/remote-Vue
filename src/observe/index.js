@@ -59,6 +59,7 @@ function defineReactive(data, key, value) {
     get: () => {
       // 首次获取变量把订阅事件存储到subs数组中
       Dep.target && Deps.addSubs(Dep.target)
+      console.log(Dep.target, 'Dep.target')
       // 如果是数组，在获取的时候收集依赖
       if (Array.isArray(value)) {
         value.__proto__.deps = Deps

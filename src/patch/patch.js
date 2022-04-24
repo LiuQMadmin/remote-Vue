@@ -1,4 +1,3 @@
-import Vue from '../index'
 /**
  * 处理元素上面的属性
  */
@@ -53,7 +52,6 @@ function createElement(vnode) {
  * 把vnode转成dom挂载到页面中
  */
 function patch(vm, vnode) {
-  vm.$options.vnode = vnode
   const oldNode = vm.$el
   // 返回的el已经是真实的dom了
   let el = createElement(vnode)

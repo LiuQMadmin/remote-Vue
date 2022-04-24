@@ -11,8 +11,8 @@
   </head>
   <body>
     <div id="app" style="color: red; font-size: 40px">
-      <div class="classStyle">vue热更新{{ name }}{{ age }}</div>
       <child></child>
+      <div class="classStyle">vue热更新{{ name }}{{ age }}</div>
       <div v-if="IfShow">v-if={{ IfShow }}测试隐藏</div>
       <span @click="handleClick(aa)">span标签</span>
       <span v-for="(item, index) in aa">
